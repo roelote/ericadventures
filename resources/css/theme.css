@@ -1,0 +1,325 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+ */
+@import "tailwindcss/base";
+
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+/* @layer components {
+    .container {
+        @apply max-w-6xl !important;
+    }
+} */
+
+@layer components {
+  .container {
+      @apply max-w-[1200px] !important;
+  }
+}
+
+.custom-logo
+{
+    @apply w-80;
+}
+
+html
+{
+    @apply scroll-smooth;
+}
+section p,section ul li, section ol li {
+    @apply text-zinc-700 text-sm font-nunito mb-3;
+}
+section tbody, .accordion, .wp-block-table figcaption
+{
+    @apply text-zinc-700 font-nunito;
+}
+figcaption
+{
+    @apply text-base !important;
+}
+section a
+{
+    @apply text-eric hover:underline;
+}
+section .wp-block-table td,
+section .wp-block-table th
+{
+    @apply border border-gray-300 text-base;
+    
+}
+section .wp-block-table
+{
+    @apply mb-3;
+}
+.h2rent
+{
+  @apply  mb-2 mt-5 bg-zinc-700 p-1.5 font-bold uppercase text-white clear-both !important;
+}
+.tourcss h2
+{
+    @apply  my-2 bg-zinc-700 p-1.5 font-bold uppercase text-white clear-both;
+}
+.tourcss h3
+{
+    @apply  text-base font-bold mb-2 text-gray-800 uppercase;
+}
+.tourcss p, .page p
+{
+  @apply text-justify;
+}
+.tourcss article .wp-block-image img
+{   
+    @apply mb-3 !important;
+}
+
+.tourcss ul, .main-page ul, .page-off ul
+{
+    @apply list-disc ml-5;
+}
+
+.tourcss ol, .main-page ol, .page-off ol
+{
+  @apply list-decimal ml-5;
+}
+.tourcss ul li, .main-page ul li, .page-off ul li
+{
+    @apply mb-2 text-sm border-b-2 border-b-gray-200 pb-0.5 !important;
+}
+.formt input, .formt textarea
+{
+    @apply border border-gray-400 rounded w-full py-0.5  px-2;
+}
+
+  .tourcss  ul li::marker, .main-page ul li::marker, .page-off ul li::marker {
+    @apply text-eric;
+  }
+  .asidet h3
+  {
+    @apply uppercase text-sm font-extrabold mb-5 pl-2 !important;
+  }
+
+  .formt .g2
+  {
+    @apply grid grid-cols-2 gap-1 xl:gap-5 mb-3;
+  }
+  .formt
+  {
+    @apply px-2 xl:px-5 py-2 border ;
+  }
+  .formt .textform
+{
+    @apply uppercase text-sm font-extrabold text-gray-700 block mb-2;
+}
+.formt label
+{
+    @apply font-nunito font-bold text-sm text-gray-700;
+}
+.formt span
+{
+    @apply text-sm;
+}
+.btnsend
+{
+    @apply w-40  mt-3 cursor-pointer bg-eric border-eric text-sm hover:bg-red-800 hover:border-red-800 transition-all text-white font-nunito py-1 px-5 uppercase !important;
+}
+
+ .ubermenu-mobile-view ul li a {
+    @apply py-2 px-4 !important;
+  }
+
+  .breadcrumb_last
+  {
+    @apply text-gray-600;
+  }
+ /*  .rental-item .wp-block-table:nth-child(3) tbody tr:first-child  {
+    @apply bg-eric text-white;
+  }
+  .rental-item .wp-block-table:nth-child(3) tbody tr th {
+    @apply text-xs py-2;
+  }
+  .rental-item .wp-block-table:nth-child(3) tbody tr td  
+  {
+    @apply text-sm py-1.5 text-center;
+  } */
+
+  .rental-item .wp-block-table:nth-child(2)  {
+    @apply table mx-auto mb-4;
+ }
+
+ .rental-item .wp-block-table:nth-child(2) td {
+    @apply py-2 px-6 text-sm;
+  }
+
+  .formpyt
+  {
+    @apply border rounded-md border-gray-500 p-3 sm:p-5 xl:px-8;
+  }
+  
+  .formpyt h2
+  {
+    @apply text-center font-bold text-eric my-5;
+  }
+
+  .formpyt .cl2
+  {
+    @apply grid grid-cols-2 gap-5;
+  }
+
+  .formpyt label
+  {
+    @apply text-gray-700 text-sm font-semibold mb-1 block;
+  }
+  .formpyt input, .formpyt select, .formpyt textarea
+  {
+    @apply border border-gray-300 rounded w-full py-0.5  px-2;
+  }
+
+ .formpyt .wpcf7-list-item input {
+  @apply w-auto ml-2;
+}
+ .formpyt .wpcf7-list-item label
+{
+  @apply flex;
+}
+
+.btnpyt {
+  @apply w-48 mx-auto bg-red-600 hover:bg-eric text-white block mt-2 py-1.5 cursor-pointer !important;
+}
+
+.tourcss .wp-block-embed-youtube iframe {
+  @apply w-full h-80;
+}
+
+.vinca iframe {
+  @apply h-44 !important;
+ 
+}
+.is-type-video
+{
+  @apply mb-3;
+}
+
+.tourcss h2 a {
+  @apply text-white !important;
+}
+
+.rental-moto .wp-block-table:nth-child(2)  {
+  @apply table mx-auto mb-4;
+}
+
+.rental-moto .wp-block-table:nth-child(2) tbody tr:first-child  {
+  @apply bg-red-600 text-white;
+}
+
+.rental-moto  .wp-block-table:nth-child(2) tbody tr td  
+{
+  @apply text-sm py-0.5 px-12 text-center;
+}
+
+.table-moto
+{
+  @apply table mx-auto mb-4;
+}
+
+.table-car tbody tr:first-child
+{
+  @apply bg-eric-moto text-white font-bold;
+}
+
+.table-car tbody tr td  
+{ 
+  @apply text-sm py-2 px-5  text-center border ;
+}
+
+.table-moto tbody tr:first-child  {
+  @apply bg-red-600 text-white;
+}
+
+.table-moto tbody tr td  
+{
+  @apply text-sm py-0.5 px-12 text-center border-gray-600 border;
+}
+
+.main-moto ul
+{
+  @apply list-disc table mx-auto pl-8 !important;
+}
+.main-moto ul li
+{
+  @apply mb-1 text-sm text-gray-600 pb-0 border-0 !important;
+}
+
+.page-moto .wp-block-heading
+{
+    @apply  my-2 bg-zinc-800 p-1.5 font-bold uppercase text-white clear-both;
+}
+
+
+.testimonials td {
+  @apply py-1 px-3 border border-gray-200 text-sm;
+
+}
+.testimonials 
+{
+  @apply w-full;
+}
+
+.page-off h2, .page-off h3, .page-off h4, .main-page h2, .main-page h3, .main-page h4
+{
+  @apply uppercase mb-3 font-bold text-lg text-gray-800;
+}
+.rent h2
+{
+  @apply bg-eric-moto text-white py-2 text-center uppercase mb-0 text-base font-bold !important;
+}
+
+
+.table-eric tr td ,.table-eric tr th
+{
+  @apply text-sm p-2 text-center ;
+}
+.table-eric tbody tr:nth-of-type(2n+1)
+{
+  @apply bg-zinc-200;
+}
+
+.table-eric thead {
+  @apply bg-eric-moto text-white;
+}
+
+.rental-moto h2 a {
+  @apply text-white !important;
+}
+
+.ubermenu-transition-fade .ubermenu-item .ubermenu-submenu-drop
+{
+  @apply w-max;
+}
+
+.formhome
+{
+  @apply border bg-white shadow px-4 sm:px-4 xl:px-8 pt-5 pb-1 mx-1 xl:mx-5 mb-2 xl:mb-5;
+}
+.text-formh
+{
+  @apply text-center block uppercase text-lg font-bold text-eric-moto mb-3;
+}
+.flexh
+{
+  @apply flex mb-3 justify-between gap-5;
+}
+.flexh label
+{
+  @apply text-gray-700 text-sm w-32;
+}
+.flexh input, .flexh textarea
+{
+  @apply border border-zinc-300 rounded w-full text-sm text-gray-600 px-2;
+}
+.sendhome
+{
+  @apply table mx-auto bg-eric-moto text-white px-5 py-1 rounded-md cursor-pointer hover:underline !important;
+}

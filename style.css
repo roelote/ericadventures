@@ -1,0 +1,120 @@
+/*!
+Theme Name: ericadventures
+Theme URI: https://ericadventures.com/
+Author: Roel Jhonatan
+Author URI: https://www.facebook.com/roelote
+Description: Tema para ericadventures
+Version: 1.0.0
+Tested up to: 8.1
+Requires PHP: 7.2
+License: GNU General Public License v2 or later
+License URI: LICENSE
+Text Domain: ericadventures
+
+*/
+
+
+    .top-menu li::after 
+    {
+        content: "|";
+        color: white;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+    }
+
+#colorbox.advgb_lightbox #cboxClose {
+  bottom: 0 !important;
+  right: 0px !important;
+  top: -40px !important;
+}
+.grecaptcha-badge
+{
+	display:none;
+}
+
+.formt select
+{
+	width: 100%;
+  border-radius:
+0.25rem;
+  border-width:
+1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(212 212 216 / var(--tw-border-opacity));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
+	padding-top: 2px;
+  padding-bottom: 2px;
+}
+.flexh select
+{
+	width: 100%;
+  border-radius:
+0.25rem;
+  border-width:
+1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(156 163 175 / var(--tw-border-opacity));
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.flexh .wpcf7-form-control-wrap
+{
+	width:100%;
+}
+
+
+.hotelcss .wp-block-table thead
+{
+ border-bottom: 0px !important;
+ background-color: #b91c1c;
+ color: white;
+}
+
+/* Filas intercaladas */
+.hotelcss tbody tr:nth-child(odd) {
+  background-color: #f9f9f9; /* gris claro */
+}
+
+.hotelcss tbody tr:nth-child(even) {
+  background-color: #ffffff; /* blanco */
+}
+.aligncenter.size-full
+{
+  width: auto;
+}
+.size-full
+{
+  width: auto !important;
+}
+
+.acf-map {
+    width: 100%;
+    height: 450px;
+    border: #e5e7eb solid 1px;
+}
+
+.acf-map img {
+    max-width: inherit !important;
+}
+
+/* Animación suave del modal */
+#mapModal.show {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
