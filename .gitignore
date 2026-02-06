@@ -2,12 +2,14 @@
 node_modules/
 package-lock.json
 
-# Build files
-src/output.css
-css/theme.css
+
+
+# WordPress cache and temporary files
+*.log
+*.sql
+*.sqlite
 
 # WordPress
-*.log
 wp-config.php
 wp-content/advanced-cache.php
 wp-content/backup-db/
@@ -43,6 +45,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 error_log
+debug.log
 
 # Environment
 .env
@@ -53,3 +56,4 @@ error_log
 *.css.map
 *.min.css
 *.min.js
+*.js.map
