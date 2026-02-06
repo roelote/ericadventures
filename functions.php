@@ -742,3 +742,21 @@ function clear_shortcodes_cache_on_save($post_id) {
     }
 }
 add_action('save_post', 'clear_shortcodes_cache_on_save');
+
+// Función para autocompletar el campo oculto con el título del tour
+add_filter('wpcf7_form_tag', function($tag, $unused) {
+    // Si el nombre del campo no es 'nombre-tour', no hacemos nada
+    if ($tag['name'] != 'Nombre_Tour') {
+        return $tag;
+    }
+
+    // Obtenemos el título del post actual
+    $post_title = get_the_title();
+    
+    // Asignamos el título como valor del campo
+    if ($post_title) {
+        $tag['values'] = (array) $post_title;
+    }
+
+    return $tag;
+}, 10, 2);
