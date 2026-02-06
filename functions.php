@@ -151,53 +151,117 @@ function my_acf_google_map_api( $api ){
 add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
 
 function ericadventures_scripts() {
-	// Versión dinámica basada en el timestamp del archivo CSS
-	$css_file = get_template_directory() . '/src/output.css';
-	$css_version = file_exists($css_file) ? filemtime($css_file) : _S_VERSION;
-	
-	wp_enqueue_style( 'ericadventures-style', get_stylesheet_uri(), array(), _S_VERSION );
+    // Versión dinámica basada en el timestamp del archivo CSS
+    $css_file = get_template_directory() . '/src/output.css';
+    $css_version = file_exists($css_file) ? filemtime($css_file) : _S_VERSION;
+    
+    wp_enqueue_style( 'ericadventures-style', get_stylesheet_uri(), array(), _S_VERSION );
     wp_enqueue_style( 'css-eric', get_stylesheet_directory_uri().'/src/output.css', array(), $css_version );
-	
-	// FancyBox - Solo cargar en páginas con galerías
-	if ( has_block('gallery') || is_singular('page') ) {
-		wp_enqueue_style('fancybox-css', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css', array(), '5.0');
-		wp_enqueue_script('fancybox-js', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js', array(), '5.0', array('in_footer' => true, 'strategy' => 'defer'));
-		
-		// Inicializa FancyBox
-		wp_add_inline_script('fancybox-js', 'document.addEventListener("DOMContentLoaded",function(){Fancybox.bind("[data-fancybox=\'gallery\']",{});});');
-	}
-	
-	// Google Maps - Solo cargar en páginas que usan ACF Maps
-	if ( is_page() && function_exists('get_field') ) {
-		$has_map = get_field('map') || get_field('location_map'); // Ajusta según tus nombres de campo
-		if ( $has_map ) {
-			wp_enqueue_script(
-				'google-maps-api',
-				'https://maps.googleapis.com/maps/api/js?key=' . get_google_maps_api_key(),
-				array(),
-				null,
-				array('in_footer' => true, 'strategy' => 'defer')
-			);
-			
-			// Script del mapa en archivo externo
-			wp_enqueue_script(
-				'google-maps-init',
-				get_template_directory_uri() . '/js/google-maps.js',
-				array('google-maps-api'),
-				filemtime(get_template_directory() . '/js/google-maps.js'),
-				array('in_footer' => true, 'strategy' => 'defer')
-			);
-		}
-	}
-	
-	// Validación de fechas - En todas las páginas
-	wp_enqueue_script(
-		'date-validation',
-		get_template_directory_uri() . '/js/date-validation.js',
-		array(),
-		filemtime(get_template_directory() . '/js/date-validation.js'),
-		array('in_footer' => true, 'strategy' => 'defer')
-	);
+    
+    // Enlaza el CSS de FancyBox
+    wp_enqueue_style('fancybox-css', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css');
+    
+    // Enlaza el JS de FancyBox
+    wp_enqueue_script('fancybox-js', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js', array(), '5.0', true);
+    
+    // Inicializa FancyBox
+    wp_add_inline_script('fancybox-js', 'document.addEventListener("DOMContentLoaded", function() {
+        Fancybox.bind("[data-fancybox=\'gallery\']", {});
+    });');
+    
+    // Google Maps API
+    wp_enqueue_script(
+        'google-maps',
+        'https://maps.googleapis.com/maps/api/js?key=' . get_google_maps_api_key(),
+        array(),
+        null,
+        true
+    );
+    
+    // Script del modal de mapa
+    wp_add_inline_script('google-maps', '
+        let mapInstance = null;
+        let mapInitialized = false;
+
+        function openMapModal() {
+            const modal = document.getElementById("mapModal");
+            modal.style.display = "flex";
+            modal.classList.remove("hidden");
+            modal.classList.add("show");
+            document.body.style.overflow = "hidden";
+            
+            // Esperar a que el modal sea visible antes de inicializar el mapa
+            setTimeout(() => {
+                if (!mapInitialized) {
+                    initMap(document.querySelector(".acf-map"));
+                    mapInitialized = true;
+                } else if (mapInstance) {
+                    // Re-centrar el mapa si ya existe
+                    google.maps.event.trigger(mapInstance, "resize");
+                }
+            }, 300);
+        }
+
+        function closeMapModal(event) {
+            if (!event || event.target.id === "mapModal" || event.currentTarget.tagName === "BUTTON") {
+                const modal = document.getElementById("mapModal");
+                modal.style.display = "none";
+                modal.classList.add("hidden");
+                modal.classList.remove("flex", "show");
+                document.body.style.overflow = "auto";
+            }
+        }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                closeMapModal();
+            }
+        });
+
+        function initMap(mapElement) {
+            if (!mapElement) {
+                console.error("No se encontró el elemento del mapa");
+                return;
+            }
+            
+            const marker = mapElement.querySelector(".marker");
+            if (!marker) {
+                console.error("No se encontró el marcador");
+                return;
+            }
+            
+            const lat = parseFloat(marker.dataset.lat);
+            const lng = parseFloat(marker.dataset.lng);
+            const zoom = parseInt(mapElement.dataset.zoom) || 16;
+            
+            if (isNaN(lat) || isNaN(lng)) {
+                console.error("Coordenadas inválidas");
+                return;
+            }
+            
+            mapInstance = new google.maps.Map(mapElement, {
+                center: { lat: lat, lng: lng },
+                zoom: zoom,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            
+            const markerObj = new google.maps.Marker({
+                position: { lat: lat, lng: lng },
+                map: mapInstance,
+                animation: google.maps.Animation.DROP
+            });
+            
+            const infowindow = new google.maps.InfoWindow({
+                content: marker.innerHTML
+            });
+            
+            markerObj.addListener("click", function() {
+                infowindow.open(mapInstance, markerObj);
+            });
+            
+            console.log("Mapa inicializado correctamente");
+        }
+    ');
 }
 add_action( 'wp_enqueue_scripts', 'ericadventures_scripts' );
 
@@ -742,6 +806,35 @@ function clear_shortcodes_cache_on_save($post_id) {
     }
 }
 add_action('save_post', 'clear_shortcodes_cache_on_save');
+
+// Validación de fechas para formularios
+function agregar_validacion_fechas() {
+    ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fechaInicio = document.getElementById('inicio');
+            const fechaFin = document.getElementById('final');
+
+            if (fechaInicio && fechaFin) {
+                fechaInicio.addEventListener('change', function() {
+                    fechaFin.min = fechaInicio.value;
+                    if (fechaFin.value && fechaFin.value < fechaInicio.value) {
+                        fechaFin.value = '';
+                    }
+                });
+
+                fechaFin.addEventListener('change', function() {
+                    if (fechaFin.value && fechaFin.value < fechaInicio.value) {
+                        alert('La fecha de fin no puede ser anterior a la fecha de inicio.');
+                        fechaFin.value = '';
+                    }
+                });
+            }
+        });
+    </script>
+    <?php
+}
+add_action('wp_footer', 'agregar_validacion_fechas');
 
 // Función para autocompletar el campo oculto con el título del tour
 add_filter('wpcf7_form_tag', function($tag, $unused) {

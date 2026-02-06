@@ -18,6 +18,17 @@
 get_header();
 ?>
 
+<style>
+.acf-map {
+    width: 100%;
+    height: 400px;
+    border: 1px solid #e5e7eb;
+}
+
+.acf-map img {
+    max-width: inherit !important;
+}
+</style>
 
 <?php
 /**
@@ -341,126 +352,6 @@ if (defined('ICL_LANGUAGE_CODE')) {
         </div>
     </div>
 </div>
-
-<script>
-// Funciones para abrir y cerrar el modal
-function openMapModal() {
-    const modal = document.getElementById('mapModal');
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden'; // Prevenir scroll del body
-    
-    // Inicializar el mapa cuando se abre el modal
-    if (typeof initializeACFMap === 'function') {
-        initializeACFMap();
-    }
-}
-
-function closeMapModal(event) {
-    // Si se proporciona event, verificar que sea el click en el overlay o botón cerrar
-    if (event && event.target.closest('.bg-white.rounded-2xl') && !event.target.closest('button')) {
-        return;
-    }
-    
-    const modal = document.getElementById('mapModal');
-    modal.style.display = 'none';
-    document.body.style.overflow = ''; // Restaurar scroll del body
-}
-
-// Cerrar modal con tecla ESC
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeMapModal();
-    }
-});
-
-// Inicializar mapa de ACF
-function initializeACFMap() {
-    const mapElement = document.querySelector('.acf-map');
-    if (!mapElement) return;
-
-    const markers = mapElement.querySelectorAll('.marker');
-    if (markers.length === 0) return;
-
-    // Configurar opciones del mapa
-    const mapArgs = {
-        zoom: parseInt(mapElement.dataset.zoom) || 16,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        scrollwheel: false
-    };
-
-    // Crear el mapa
-    const map = new google.maps.Map(mapElement, mapArgs);
-    map.markers = [];
-
-    // Agregar markers
-    markers.forEach(function(markerElement) {
-        initMarker(markerElement, map);
-    });
-
-    // Centrar el mapa
-    centerMap(map);
-}
-
-function initMarker(markerElement, map) {
-    const lat = parseFloat(markerElement.dataset.lat);
-    const lng = parseFloat(markerElement.dataset.lng);
-    
-    const latLng = {
-        lat: lat,
-        lng: lng
-    };
-
-    // Crear marker
-    const marker = new google.maps.Marker({
-        position: latLng,
-        map: map,
-        animation: google.maps.Animation.DROP
-    });
-
-    map.markers.push(marker);
-
-    // Si el marker tiene contenido HTML, crear info window
-    if (markerElement.innerHTML) {
-        const infowindow = new google.maps.InfoWindow({
-            content: markerElement.innerHTML
-        });
-
-        // Mostrar info window al hacer click
-        marker.addListener('click', function() {
-            infowindow.open(map, marker);
-        });
-
-        // Abrir automáticamente
-        infowindow.open(map, marker);
-    }
-}
-
-function centerMap(map) {
-    const bounds = new google.maps.LatLngBounds();
-
-    map.markers.forEach(function(marker) {
-        bounds.extend({
-            lat: marker.position.lat(),
-            lng: marker.position.lng()
-        });
-    });
-
-    if (map.markers.length === 1) {
-        map.setCenter(bounds.getCenter());
-        map.setZoom(map.zoom || 16);
-    } else {
-        map.fitBounds(bounds);
-    }
-}
-
-// Inicializar cuando Google Maps esté listo
-if (typeof google !== 'undefined' && typeof google.maps !== 'undefined') {
-    // Google Maps ya está cargado
-    document.addEventListener('DOMContentLoaded', function() {
-        // El mapa se inicializará cuando se abra el modal
-    });
-}
-</script>
 
 <?php
 
