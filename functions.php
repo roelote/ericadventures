@@ -141,7 +141,9 @@ add_action( 'widgets_init', 'ericadventures_widgets_init' );
  */
 
 function get_google_maps_api_key() {
-    return 'AIzaSyA5KknbUlhzpaF-IVWQQihy1aCQDrzvth0';
+    // Lee la clave de API desde wp-config.php
+    // Define GOOGLE_MAPS_API_KEY en wp-config.php como: define('GOOGLE_MAPS_API_KEY', 'tu-clave-aqui');
+    return defined('GOOGLE_MAPS_API_KEY') ? GOOGLE_MAPS_API_KEY : '';
 }
 
 function my_acf_google_map_api( $api ){
