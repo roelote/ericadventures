@@ -855,3 +855,57 @@ add_filter('wpcf7_form_tag', function($tag, $unused) {
 
     return $tag;
 }, 10, 2);
+
+
+
+// codigo para enviar datos a Google Sheets cuando se envía un formulario de Contact Form 7
+
+add_action('wpcf7_mail_sent', function () {
+
+    $submission = WPCF7_Submission::get_instance();
+    if (!$submission) {
+        return;
+    }
+
+    $data = $submission->get_posted_data();
+
+    $payload = [
+        // 🔐 Token de seguridad (MISMO que en Apps Script)
+        'token'        => 'PY!qMnaNnh45#CM5',
+
+        // 📄 Datos ocultos
+        'fecha_hora'   => $data['Fecha_Hora']  ?? '',
+        'url_tour'     => $data['Url_Tour']    ?? '',
+        'nombre_tour'  => $data['Nombre_Tour'] ?? '',
+        'idioma'       => $data['Idioma']      ?? '',
+        'ip'           => $data['Ip']          ?? '',
+
+        // 👤 Datos del cliente
+        'nombre'       => $data['Nombre']      ?? '',
+        'email'        => $data['Emails']      ?? '',
+        'pais'         => $data['Pais']        ?? '',
+        'whatsapp'     => $data['Whatsapp']    ?? '',
+
+        // 📆 Reserva
+        'adultos'      => $data['Adultos']     ?? '',
+        'ninos'        => $data['Ninos']       ?? '',
+        'inicio'       => $data['Inicio']      ?? '',
+        'final'        => $data['Final']       ?? '',
+
+        // 💬 Mensaje
+        'mensaje'      => $data['Mensaje']     ?? ''
+    ];
+
+		   wp_remote_post(
+		  'https://script.google.com/macros/s/AKfycbxloM_qN-znNdtr5Ih6XhqrrLXB1T5ClFZn53fkRXaA6EvzaQmk-A045JaOmFiiZK5WEg/exec',
+		  [
+			'method'  => 'POST',
+			'headers' => ['Content-Type' => 'application/json'],
+			'body'    => wp_json_encode($payload),
+			'timeout' => 15
+		  ]
+		);
+
+
+});
+
